@@ -1,10 +1,13 @@
 package lotto;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static camp.nextstep.edu.missionutils.test.Assertions.assertSimpleTest;
+import static org.assertj.core.api.Assertions.assertThatRuntimeException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class LottoTest {
@@ -22,4 +25,22 @@ class LottoTest {
     }
 
     // TODO: 추가 기능 구현에 따른 테스트 코드 작성
+    LottoInputValidator lottoInputValidator = new LottoInputValidator();
+
+
+    @DisplayName("로또 구매 구입이 1000원로 나누어 떨어진다.")
+    @Test
+    void 구입_금액이_1000원_단위로_나누어_떨어지면_통과한다() {
+        Integer value = lottoInputValidator.purchaseAmount("8000");
+        Assertions.assertThat(value).isEqualTo(8000);
+    }
+
+    @DisplayName("로또 구매 구입이 1000원 단위로 떨어지지 않으면 예외가 발생한다.")
+    @Test
+    void 구입_금액이_1000원_단위로_나누어_떨어지지_않으면_예외가_발생한다() {
+        assertSimpleTest(() -> {
+            assertThatRuntimeException()
+                    .isThrownBy(() -> lottoInputValidator.purchaseAmount("8001"));
+        });
+    }
 }

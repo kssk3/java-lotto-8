@@ -1,0 +1,8 @@
+package lotto;
+
+public class OutputView {
+
+    public void printRequestPurchaseAmount() {
+        System.out.println("구입금액을 입력해 주세요.");
+    }
+}
