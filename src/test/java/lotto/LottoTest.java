@@ -43,4 +43,13 @@ class LottoTest {
                     .isThrownBy(() -> lottoInputValidator.purchaseAmount("8001"));
         });
     }
+
+    @DisplayName("구입 금액이 숫자가 아니면 예외가 발생한다.")
+    @Test
+    void 구입_금액이_숫자가_아니면_예외가_발생한다() {
+        assertSimpleTest(() -> {
+            assertThatRuntimeException()
+                    .isThrownBy(() -> lottoInputValidator.purchaseAmount("구입금액"));
+        });
+    }
 }
