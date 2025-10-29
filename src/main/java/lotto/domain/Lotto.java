@@ -1,37 +1,45 @@
 package lotto.domain;
 
-import camp.nextstep.edu.missionutils.Randoms;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import lotto.error.LottoGameException;
 
-public class Lotto implements LottoMachine {
+public class Lotto {
 
-    private static final int MINIMUM_NUMBER = 1;
-    private static final int MAXIMUM_NUMBER = 45;
     private static final int PICK_COUNT = 6;
 
     private final Set<Integer> numbers;
 
     public Lotto(List<Integer> numbers) {
         validate(numbers);
-        this.numbers = new TreeSet<>();
+        this.numbers = new TreeSet<>(numbers);
     }
 
     private void validate(List<Integer> numbers) {
         if (numbers.size() != PICK_COUNT) {
             throw new IllegalArgumentException(LottoGameException.PREFIX + "로또 번호는 6개여야 합니다.");
         }
+        if (numbers.size() != new TreeSet<>(numbers).size()) {
+            throw new IllegalArgumentException(LottoGameException.PREFIX + "로또 번호에 중복된 숫자가 있습니다.");
+        }
+    }
+    public Set<Integer> getNumbers() {
+        return numbers;
     }
 
     @Override
-    public void run() {
-        List<Integer> results = Randoms.pickUniqueNumbersInRange(MINIMUM_NUMBER, MAXIMUM_NUMBER, PICK_COUNT);
-        numbers.addAll(results);
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Lotto lotto = (Lotto) o;
+        return Objects.equals(numbers, lotto.numbers);
     }
 
-    public Set<Integer> getNumbers() {
-        return numbers;
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(numbers);
     }
 }

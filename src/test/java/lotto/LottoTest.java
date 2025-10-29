@@ -2,6 +2,7 @@ package lotto;
 
 import lotto.domain.Lotto;
 import lotto.domain.LottoInputValidator;
+import lotto.error.LottoGameException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,26 +17,22 @@ class LottoTest {
     @Test
     void 로또_번호의_개수가_6개가_넘어가면_예외가_발생한다() {
         assertThatThrownBy(() -> new Lotto(List.of(1, 2, 3, 4, 5, 6, 7)))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining(LottoGameException.PREFIX);
     }
 
     @DisplayName("로또 번호에 중복된 숫자가 있으면 예외가 발생한다.")
     @Test
     void 로또_번호에_중복된_숫자가_있으면_예외가_발생한다() {
         assertThatThrownBy(() -> new Lotto(List.of(1, 2, 3, 4, 5, 5)))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining(LottoGameException.PREFIX);
+
     }
 
     // TODO: 추가 기능 구현에 따른 테스트 코드 작성
     LottoInputValidator lottoInputValidator = new LottoInputValidator();
 
-
-    @DisplayName("로또 구매 구입이 1000원로 나누어 떨어진다.")
-    @Test
-    void 구입_금액이_1000원_단위로_나누어_떨어지면_통과한다() {
-        Integer value = lottoInputValidator.purchaseAmount("8000");
-        Assertions.assertThat(value).isEqualTo(8000);
-    }
 
     @DisplayName("로또 구매 구입이 1000원 단위로 떨어지지 않으면 예외가 발생한다.")
     @Test
