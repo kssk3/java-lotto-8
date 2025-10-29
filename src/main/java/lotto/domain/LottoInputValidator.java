@@ -1,4 +1,6 @@
-package lotto;
+package lotto.domain;
+
+import lotto.error.LottoGameException;
 
 public class LottoInputValidator {
 
@@ -6,7 +8,7 @@ public class LottoInputValidator {
         Integer value = parseInt(input);
         int lestCost = value % 1000;
         if(lestCost != 0){
-            throw new IllegalArgumentException("[ERROR] " + "1,000원 단위로 입력해주세요. 현재 구매굼액 " + value);
+            throw new IllegalArgumentException(LottoGameException.PREFIX + "1,000원 단위로 입력해주세요. 현재 구매굼액 " + value);
         }
 
         return value;
@@ -16,7 +18,7 @@ public class LottoInputValidator {
         try {
             return Integer.parseInt(input);
         }catch (NumberFormatException e) {
-            throw new IllegalArgumentException("[ERROR] " + "숫자값을 입력해주세요.");
+            throw new IllegalArgumentException(LottoGameException.PREFIX + "숫자값을 입력해주세요.");
         }
     }
 }
