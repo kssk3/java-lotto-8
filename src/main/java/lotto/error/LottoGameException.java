@@ -8,11 +8,11 @@ public class LottoGameException {
         throw new UnsupportedOperationException("생성자를 생성할 수 없습니다.");
     }
 
-    public RuntimeException invalidInput(String input) {
+    public static RuntimeException invalidInput(String input) {
         return new IllegalArgumentException(PREFIX + input);
     }
 
-    public RuntimeException invalidStatus(String input) {
+    public static RuntimeException invalidStatus(String input) {
         return new IllegalArgumentException(PREFIX + input);
     }
 }
