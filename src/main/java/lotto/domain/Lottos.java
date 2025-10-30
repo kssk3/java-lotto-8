@@ -6,7 +6,7 @@ import lotto.error.LottoGameException;
 
 public class Lottos {
 
-    private List<Lotto> lottos;
+    private final List<Lotto> lottos;
 
     public Lottos() {
         this.lottos = new LinkedList<>();

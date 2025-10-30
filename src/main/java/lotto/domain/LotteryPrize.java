@@ -23,13 +23,13 @@ public enum LotteryPrize {
         this.description = description;
     }
 
-    public LotteryPrize from(int matchCount, boolean bonusMatch) {
+    public static LotteryPrize from(int matchCount, boolean bonusMatch) {
         // 5개 맞춤 + 보너스까지 일치하면 2등
-        if (this.matchCount == 5 && bonusMatch) {
+        if (matchCount == 5 && bonusMatch) {
             return SECOND;
         }
         // 5개 맞춤 + 보너스 일치하지 않을 경우 3등
-        if (this.matchCount == 5 && !bonusMatch) {
+        if (matchCount == 5 && !bonusMatch) {
             return THIRD;
         }
 

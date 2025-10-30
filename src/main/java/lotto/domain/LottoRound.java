@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class LottoRound {
 
-    private int round;
+    private final int round;
 
     public LottoRound(int round) {
         this.round = round;

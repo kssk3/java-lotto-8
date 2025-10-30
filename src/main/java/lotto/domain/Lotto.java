@@ -1,32 +1,36 @@
 package lotto.domain;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import lotto.error.LottoGameException;
+import lotto.utils.Constants;
 
 public class Lotto {
 
-    private static final int PICK_COUNT = 6;
 
-    private final Set<Integer> numbers;
+    private final List<Integer> numbers;
 
     public Lotto(List<Integer> numbers) {
         validate(numbers);
-        this.numbers = new TreeSet<>(numbers);
+        this.numbers = numbers.stream()
+                .sorted()
+                .toList();
     }
 
     private void validate(List<Integer> numbers) {
-        if (numbers.size() != PICK_COUNT) {
+        if (numbers.size() != Constants.LOTTO_PICK_COUNT) {
             throw new IllegalArgumentException(LottoGameException.PREFIX + "로또 번호는 6개여야 합니다.");
         }
         if (numbers.size() != new TreeSet<>(numbers).size()) {
             throw new IllegalArgumentException(LottoGameException.PREFIX + "로또 번호에 중복된 숫자가 있습니다.");
         }
     }
-    public Set<Integer> getNumbers() {
-        return numbers;
+
+    public List<Integer> getNumbers() {
+        return this.numbers;
     }
 
     @Override

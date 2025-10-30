@@ -2,27 +2,23 @@ package lotto.domain;
 
 import camp.nextstep.edu.missionutils.Randoms;
 import java.util.List;
+import lotto.utils.Constants;
 
 public class LottoGame implements LottoMachine{
 
-    private static final int INIT_LOTTO_ROUNDS = 0;
-    private static final int MINIMUM_NUMBER = 1;
-    private static final int MAXIMUM_NUMBER = 45;
-    private static final int LOTTO_PICK_COUNT = 6;
-
-    private Lottos lottos;
-    private LottoRound lottoRound;
+    private final Lottos lottos;
+    private final LottoRound lottoRound;
     private int currentRound;
 
     public LottoGame(Lottos lottos, LottoRound lottoRound) {
         this.lottos = lottos;
         this.lottoRound = lottoRound;
-        this.currentRound = INIT_LOTTO_ROUNDS;
+        this.currentRound = Constants.INIT_LOTTO_ROUNDS;
     }
 
     @Override
     public List<Integer> generateLottoNumbers() {
-        return Randoms.pickUniqueNumbersInRange(MINIMUM_NUMBER, MAXIMUM_NUMBER, LOTTO_PICK_COUNT);
+        return Randoms.pickUniqueNumbersInRange(Constants.MINIMUM_NUMBER, Constants.MAXIMUM_NUMBER, Constants.LOTTO_PICK_COUNT);
     }
 
     public void playLotto() {

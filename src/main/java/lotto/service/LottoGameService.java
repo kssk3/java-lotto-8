@@ -3,11 +3,10 @@ package lotto.service;
 import java.util.Arrays;
 import java.util.List;
 import lotto.domain.LottoRound;
+import lotto.utils.Constants;
 import lotto.utils.DelimiterConstants;
 
 public class LottoGameService {
-
-    private static final int LOTTO_TICKET_PRICE = 1000;
 
     private final LottoInputValidator validator;
 
@@ -17,7 +16,7 @@ public class LottoGameService {
 
     public LottoRound createLottoRound(final String input) {
         validator.purchaseAmount(input);
-        int round = Integer.parseInt(input) / LOTTO_TICKET_PRICE;
+        int round = Integer.parseInt(input) / Constants.LOTTO_TICKET_PRICE;
         return new LottoRound(round);
     }
 

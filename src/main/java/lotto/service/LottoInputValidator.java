@@ -5,19 +5,18 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import lotto.error.LottoGameException;
+import lotto.utils.Constants;
 import lotto.utils.DelimiterConstants;
 
 public class LottoInputValidator {
 
-    private static final int MINIMUM_PRICE = 1000;
-
     public void purchaseAmount(String input) {
         Integer value = validateAndParseInt(input);
-        if (value < MINIMUM_PRICE) {
+        if (value < Constants.LOTTO_TICKET_PRICE) {
             throw new IllegalArgumentException(LottoGameException.PREFIX + "1,000원 이하의 금액은 구입할 수 없습니다. " + value);
         }
-        int lestCost = value % 1000;
-        if (lestCost != 0) {
+        int restCost = value % 1000;
+        if (restCost != 0) {
             throw new IllegalArgumentException(LottoGameException.PREFIX + "1,000원 단위로 입력해주세요. 현재 구매굼액 " + value);
         }
     }
