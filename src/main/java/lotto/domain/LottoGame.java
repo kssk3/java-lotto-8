@@ -48,4 +48,7 @@ public class LottoGame implements LottoMachine{
         return currentRound == lottoRound.getRound();
     }
 
+    public Lottos getLottos() {
+        return lottos;
+    }
 }

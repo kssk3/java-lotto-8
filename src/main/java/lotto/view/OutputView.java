@@ -2,6 +2,9 @@ package lotto.view;
 
 import java.util.List;
 import lotto.domain.Lotto;
+import lotto.domain.LottoGame;
+import lotto.domain.LottoRound;
+import lotto.domain.Lottos;
 
 public class OutputView {
 
@@ -9,15 +12,14 @@ public class OutputView {
         System.out.println("구입금액을 입력해 주세요.");
     }
 
-    public void printLottoPurchaseCount(int value) {
+    public void printLottoPurchaseCount(final int value) {
         printNewLine();
         System.out.println(value + "개를 구매했습니다.");
-        printNewLine();
     }
 
-    public void printLottos(List<Lotto> lottos) {
-        for (Lotto lotto : lottos) {
-            printLotto(lotto);
+    public void printLottoGame(Lottos lottos) {
+        for(Lotto lotto : lottos.getLottos()) {
+            System.out.println(lotto.getNumbers());
         }
         printNewLine();
     }
@@ -34,7 +36,7 @@ public class OutputView {
         System.out.println(lotto.getNumbers());
     }
 
-    private void printNewLine() {System.out.println();}
+    public void printNewLine() {System.out.println();}
 
 
 
