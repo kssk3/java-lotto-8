@@ -26,18 +26,6 @@ public class Application {
         lottoGame.playLotto();
 
         output.printLottos(lottos.getLottos());
-        output.printWinNumbers();
-        String str = input.readLine();
-        System.out.println();
-        output.printBonusNumber();
-        String bonus = input.readLine();
-        System.out.println();
-
-        String wingNumber = str + bonus;
-        List<Integer> wingResult = Arrays.stream(wingNumber.split(",")).map(String::trim).map(Integer::parseInt).toList();
-        System.out.println("당첨 통계");
-        System.out.println("---");
-
     }
 
 }
