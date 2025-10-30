@@ -1,6 +1,7 @@
 package lotto.domain;
 
 import lotto.error.LottoGameException;
+import lotto.service.LottoInputValidator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
