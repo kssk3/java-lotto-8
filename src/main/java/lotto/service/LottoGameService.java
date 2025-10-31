@@ -21,7 +21,7 @@ public class LottoGameService {
     }
 
     public List<Integer> createWinningNumbers(final String input) {
-        validator.duplicateNumber(input);
+        validator.validateDuplicateNumber(input);
         return Arrays.stream(input.split(DelimiterConstants.COMA))
                 .map(String::trim)
                 .map(Integer::parseInt)

@@ -3,6 +3,7 @@ package lotto.domain;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import lotto.utils.Constants;
 
 public class WinningLotto {
 

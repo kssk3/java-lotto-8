@@ -21,11 +21,9 @@ public class LottoInputValidator {
         }
     }
 
-    public void duplicateNumber(String input) {
-        List<Integer> winningNumbers = Arrays.stream(input.split(DelimiterConstants.COMA))
-                .map(String::trim)
-                .map(Integer::parseInt)
-                .toList();
+    public void validateDuplicateNumber(String input) {
+        List<Integer> winningNumbers = spitedAndCreateNumbers(input);
+        validateAverageLottoNumber(winningNumbers);
         Set<Integer> numbers = new TreeSet<>(winningNumbers);
         if (numbers.size() != 6) {
             throw new IllegalArgumentException(LottoGameException.PREFIX + "중복된 수를 입력할 수 없습니다.");
@@ -35,8 +33,25 @@ public class LottoInputValidator {
     public void duplicateBonusNumber(List<Integer> numbers, String input) {
         int value = validateAndParseInt(input);
         if (numbers.contains(value)) {
-            throw new IllegalArgumentException(LottoGameException.PREFIX + "이미 중복된 번호가 있습니다. " + value + " 다른 번호를 입력해주세요.");
+            throw new IllegalArgumentException(
+                    LottoGameException.PREFIX + "이미 중복된 번호가 있습니다. " + value + " 다른 번호를 입력해주세요.");
         }
+    }
+
+    private static void validateAverageLottoNumber(List<Integer> winningNumbers) {
+        for (Integer number : winningNumbers) {
+            if (number < Constants.MINIMUM_NUMBER || number > Constants.MAXIMUM_NUMBER) {
+                throw new IllegalArgumentException(LottoGameException.PREFIX + "로또 번호는 1부터 45 사이의 숫자여야 합니다.");
+            }
+        }
+
+    }
+
+    private static List<Integer> spitedAndCreateNumbers(String input) {
+        return Arrays.stream(input.split(DelimiterConstants.COMA))
+                .map(String::trim)
+                .map(Integer::parseInt)
+                .toList();
     }
 
     private int validateAndParseInt(String input) {
