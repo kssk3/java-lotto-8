@@ -3,6 +3,7 @@ package lotto.domain;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import lotto.error.LottoGameException;
 import lotto.utils.Constants;
 
 public class WinningLotto {
@@ -11,6 +12,7 @@ public class WinningLotto {
     private final Integer bonus;
 
     public WinningLotto(List<Integer> numbers, Integer bonus) {
+        validateContainsBonusNumber(numbers, bonus);
         this.numbers = new LinkedList<>(numbers);
         this.bonus = bonus;
     }
@@ -21,6 +23,13 @@ public class WinningLotto {
 
     public Integer getBonus() {
         return bonus;
+    }
+
+    private void validateContainsBonusNumber(List<Integer> numbers, Integer bonusNumber) {
+        if (numbers.contains(bonusNumber)) {
+            throw new IllegalArgumentException(
+                    LottoGameException.PREFIX + " 당첨 번호와 보너스 번호가 중복될 수 없습니다. " + bonusNumber + " 다른 번호를 입력해주세요.");
+        }
     }
 
     @Override
