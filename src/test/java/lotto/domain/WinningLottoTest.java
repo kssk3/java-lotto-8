@@ -20,7 +20,17 @@ class WinningLottoTest {
     @Test
     void 당첨_번호와_보너스_번호가_중복할_경우_예외를_발생한다() {
         final List<Integer>  winningLotto = List.of(1, 2, 3, 4, 5, 6);
-        Integer bonusNumber = 6;
+        final Integer bonusNumber = 6;
+        assertThatThrownBy(() -> new WinningLotto(winningLotto, bonusNumber))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining(LottoGameException.PREFIX);
+    }
+
+    @DisplayName("당첨 번호가 6개 이상이면 예외를 발생한다.")
+    @Test
+    void 당첨_번호가_6개_이상이면_예외를_발생한다() {
+        final List<Integer>  winningLotto = List.of(1, 2, 3, 4, 5, 6, 7);
+        final Integer bonusNumber = 8;
         assertThatThrownBy(() -> new WinningLotto(winningLotto, bonusNumber))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(LottoGameException.PREFIX);

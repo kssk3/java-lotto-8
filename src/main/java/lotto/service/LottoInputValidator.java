@@ -40,7 +40,7 @@ public class LottoInputValidator {
         }
     }
 
-    private static void validateAverageLottoNumber(List<Integer> winningNumbers) {
+    public static void validateAverageLottoNumber(List<Integer> winningNumbers) {
         for (Integer number : winningNumbers) {
             if (number < Constants.LOTTO_MIN_NUMBER || number > Constants.LOTTO_MAX_NUMBER) {
                 throw new IllegalArgumentException(LottoGameException.PREFIX + "로또 번호는 1부터 45 사이의 숫자여야 합니다.");
@@ -48,14 +48,14 @@ public class LottoInputValidator {
         }
     }
 
-    private static List<Integer> spitedAndCreateNumbers(String input) {
+    public static List<Integer> spitedAndCreateNumbers(String input) {
         return Arrays.stream(input.split(DelimiterConstants.COMMA))
                 .map(String::trim)
                 .map(Integer::parseInt)
                 .toList();
     }
 
-    private int validateAndParseInt(String input) {
+    public int validateAndParseInt(String input) {
         try {
             return Integer.parseInt(input);
         } catch (NumberFormatException e) {
