@@ -2,6 +2,7 @@ package lotto.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 import lotto.domain.LotteryPrize;
 import lotto.domain.Lotto;
 import lotto.domain.LottoGame;
@@ -33,6 +34,16 @@ public class LottoGameController {
         displayResult(lottoGame, winningLotto);
     }
 
+    private <T> T retryOnException(Supplier<T> supplier) {
+        while (true) {
+            try {
+                return supplier.get();
+            } catch (IllegalArgumentException e) {
+                outputView.printErrorMessage(e.getMessage());
+            }
+        }
+    }
+
     private LottoGame initializeGame() {
         LottoRound lottoRound = getLottoRound();
         outputView.printLottoPurchaseCount(lottoRound.getRound());
@@ -45,15 +56,11 @@ public class LottoGameController {
     }
 
     private LottoRound getLottoRound() {
-        while (true) {
-            try {
-                this.outputView.printRequestPurchaseAmount();
-                String input = inputView.readLine();
-                return this.lottoGameService.createLottoRound(input);
-            } catch (IllegalArgumentException e) {
-                outputView.printErrorMessage(e.getMessage());
-            }
-        }
+        return retryOnException(() -> {
+            this.outputView.printRequestPurchaseAmount();
+            String input = inputView.readLine();
+            return this.lottoGameService.createLottoRound(input);
+        });
     }
 
     private WinningLotto createWinningLotto() {
@@ -63,29 +70,21 @@ public class LottoGameController {
     }
 
     private List<Integer> getWinningNumbers() {
-        while (true) {
-            try {
-                this.outputView.printWinNumbers();
-                String input = this.inputView.readLine();
-                outputView.printNewLine();
-                return this.lottoGameService.createWinningNumbers(input);
-            } catch (IllegalArgumentException e) {
-                outputView.printErrorMessage(e.getMessage());
-            }
-        }
+        return retryOnException(() -> {
+            this.outputView.printWinNumbers();
+            String input = this.inputView.readLine();
+            outputView.printNewLine();
+            return this.lottoGameService.createWinningNumbers(input);
+        });
     }
 
     private int getBonusNumber(final List<Integer> winningNumbers) {
-        while (true) {
-            try {
-                this.outputView.printBonusNumber();
-                String input = this.inputView.readLine();
-                outputView.printNewLine();
-                return this.lottoGameService.createBonusNumber(winningNumbers, input);
-            } catch (IllegalArgumentException e) {
-                outputView.printErrorMessage(e.getMessage());
-            }
-        }
+        return retryOnException(() -> {
+            this.outputView.printBonusNumber();
+            String input = this.inputView.readLine();
+            outputView.printNewLine();
+            return this.lottoGameService.createBonusNumber(winningNumbers, input);
+        });
     }
 
     private LottoResults findLotteryPrizeAndGetResults(LottoGame lottoGame, WinningLotto winningLotto) {
