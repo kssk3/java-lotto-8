@@ -1,9 +1,7 @@
 package lotto.domain;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.TreeSet;
 import lotto.error.LottoGameException;
 import lotto.utils.Constants;
@@ -20,7 +18,7 @@ public class Lotto {
     }
 
     private void validate(List<Integer> numbers) {
-        if (numbers.size() != Constants.LOTTO_PICK_COUNT) {
+        if (numbers.size() != Constants.LOTTO_NUMBER_COUNT) {
             throw new IllegalArgumentException(LottoGameException.PREFIX + "로또 번호는 6개여야 합니다.");
         }
         if (numbers.size() != new TreeSet<>(numbers).size()) {

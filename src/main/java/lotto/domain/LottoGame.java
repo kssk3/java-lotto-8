@@ -13,12 +13,12 @@ public class LottoGame implements LottoMachine{
     public LottoGame(Lottos lottos, LottoRound lottoRound) {
         this.lottos = lottos;
         this.lottoRound = lottoRound;
-        this.currentRound = Constants.INIT_LOTTO_ROUNDS;
+        this.currentRound = Constants.INITIAL_ROUND_COUNT;
     }
 
     @Override
     public List<Integer> generateLottoNumbers() {
-        return Randoms.pickUniqueNumbersInRange(Constants.MINIMUM_NUMBER, Constants.MAXIMUM_NUMBER, Constants.LOTTO_PICK_COUNT);
+        return Randoms.pickUniqueNumbersInRange(Constants.LOTTO_MIN_NUMBER, Constants.LOTTO_MAX_NUMBER, Constants.LOTTO_NUMBER_COUNT);
     }
 
     public void playLotto() {

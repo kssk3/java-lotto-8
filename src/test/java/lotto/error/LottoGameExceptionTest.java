@@ -19,4 +19,5 @@ class LottoGameExceptionTest {
         assertThat(result).isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(LottoGameException.PREFIX);
     }
+
 }

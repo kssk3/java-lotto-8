@@ -8,10 +8,15 @@ import lotto.view.OutputView;
 
 public class Application {
     public static void main(String[] args) {
-        LottoGameController lottoGameController =
-                new LottoGameController(new LottoGameService(new LottoInputValidator()), new InputView(), new OutputView());
+        LottoGameService lottoGameService = new LottoGameService(new LottoInputValidator());
+        InputView inputView = new InputView();
+        OutputView outputView = new OutputView();
 
-
-        lottoGameController.run();
+        try{
+            LottoGameController lottoGameController = new LottoGameController(lottoGameService, inputView, outputView);
+            lottoGameController.run();
+        }catch (IllegalArgumentException e){
+            outputView.printErrorMessage(e.getMessage());
+        }
     }
 }

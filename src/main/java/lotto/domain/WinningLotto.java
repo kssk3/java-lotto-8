@@ -12,6 +12,7 @@ public class WinningLotto {
     private final Integer bonus;
 
     public WinningLotto(List<Integer> numbers, Integer bonus) {
+        validate(numbers);
         validateContainsBonusNumber(numbers, bonus);
         this.numbers = new LinkedList<>(numbers);
         this.bonus = bonus;
@@ -23,6 +24,16 @@ public class WinningLotto {
 
     public Integer getBonusNumber() {
         return bonus;
+    }
+
+    private void validate(List<Integer> numbers){
+        if (Objects.isNull(numbers) || numbers.isEmpty()){
+            throw new IllegalArgumentException(LottoGameException.PREFIX + "로또 번호는 입력해주세요");
+        }
+
+        if (numbers.size() != Constants.LOTTO_NUMBER_COUNT) {
+            throw new IllegalArgumentException(LottoGameException.PREFIX + "로또 번호는 6개만 입력할 수 있습니다.");
+        }
     }
 
     private void validateContainsBonusNumber(List<Integer> numbers, Integer bonusNumber) {

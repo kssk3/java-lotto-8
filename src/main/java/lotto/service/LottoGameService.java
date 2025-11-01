@@ -15,14 +15,14 @@ public class LottoGameService {
     }
 
     public LottoRound createLottoRound(final String input) {
-        validator.purchaseAmount(input);
-        int round = Integer.parseInt(input) / Constants.LOTTO_TICKET_PRICE;
-        return new LottoRound(round);
+            validator.purchaseAmount(input);
+            int round = Integer.parseInt(input) / Constants.LOTTO_TICKET_PRICE;
+            return new LottoRound(round);
     }
 
     public List<Integer> createWinningNumbers(final String input) {
         validator.validateDuplicateNumber(input);
-        return Arrays.stream(input.split(DelimiterConstants.COMA))
+        return Arrays.stream(input.split(DelimiterConstants.COMMA))
                 .map(String::trim)
                 .map(Integer::parseInt)
                 .toList();

@@ -2,8 +2,10 @@ package lotto.domain;
 
 
 import java.util.Arrays;
+import lotto.utils.Constants;
 
 public enum LotteryPrize {
+
     JACKPOT(6, false, 2_000_000_000, "6개 일치"),
     SECOND(5, true, 30_000_000, "5개 일치"),
     THIRD(5, false, 1_500_000, "5개 일치"),
@@ -23,13 +25,13 @@ public enum LotteryPrize {
         this.description = description;
     }
 
-    public static LotteryPrize from(long matchCount, boolean bonusMatch) {
+    public static LotteryPrize from(int matchCount, boolean bonusMatch) {
         // 5개 맞춤 + 보너스까지 일치하면 2등
-        if (matchCount == 5 && bonusMatch) {
+        if (matchCount == Constants.BONUS_ELIGIBILITY_COUNT && bonusMatch) {
             return SECOND;
         }
         // 5개 맞춤 + 보너스 일치하지 않을 경우 3등
-        if (matchCount == 5 && !bonusMatch) {
+        if (matchCount == Constants.BONUS_ELIGIBILITY_COUNT && !bonusMatch) {
             return THIRD;
         }
 

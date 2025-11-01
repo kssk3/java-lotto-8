@@ -10,13 +10,15 @@ import lotto.utils.DelimiterConstants;
 
 public class LottoInputValidator {
 
-    public void purchaseAmount(String input) {
+    private static final int REST_COST = 0;
+
+    public void purchaseAmount(String input) throws IllegalArgumentException{
         Integer value = validateAndParseInt(input);
         if (value < Constants.LOTTO_TICKET_PRICE) {
             throw new IllegalArgumentException(LottoGameException.PREFIX + "1,000원 이하의 금액은 구입할 수 없습니다. " + value);
         }
-        int restCost = value % 1000;
-        if (restCost != 0) {
+        int restCost = value % Constants.LOTTO_TICKET_PRICE;
+        if (restCost != REST_COST) {
             throw new IllegalArgumentException(LottoGameException.PREFIX + "1,000원 단위로 입력해주세요. 현재 구매굼액 " + value);
         }
     }
@@ -25,7 +27,7 @@ public class LottoInputValidator {
         List<Integer> winningNumbers = spitedAndCreateNumbers(input);
         validateAverageLottoNumber(winningNumbers);
         Set<Integer> numbers = new TreeSet<>(winningNumbers);
-        if (numbers.size() != 6) {
+        if (numbers.size() != Constants.LOTTO_NUMBER_COUNT) {
             throw new IllegalArgumentException(LottoGameException.PREFIX + "중복된 수를 입력할 수 없습니다.");
         }
     }
@@ -40,15 +42,14 @@ public class LottoInputValidator {
 
     private static void validateAverageLottoNumber(List<Integer> winningNumbers) {
         for (Integer number : winningNumbers) {
-            if (number < Constants.MINIMUM_NUMBER || number > Constants.MAXIMUM_NUMBER) {
+            if (number < Constants.LOTTO_MIN_NUMBER || number > Constants.LOTTO_MAX_NUMBER) {
                 throw new IllegalArgumentException(LottoGameException.PREFIX + "로또 번호는 1부터 45 사이의 숫자여야 합니다.");
             }
         }
-
     }
 
     private static List<Integer> spitedAndCreateNumbers(String input) {
-        return Arrays.stream(input.split(DelimiterConstants.COMA))
+        return Arrays.stream(input.split(DelimiterConstants.COMMA))
                 .map(String::trim)
                 .map(Integer::parseInt)
                 .toList();

@@ -41,14 +41,18 @@ public class OutputView {
         List<LotteryPrize> prizesInOrder = lottoResults.getPrizesInOrder();
         for (LotteryPrize prize : prizesInOrder) {
             int count = lottoResults.getCountByPrize(prize);
-            if(prize != LotteryPrize.SECOND){
-                System.out.println(prize.getDescription() + " (" + String.format("%,d",prize.getPrize()) +"원)" + " - " + count + "개");
-            }
-
-            if(prize == LotteryPrize.SECOND){
-                System.out.println(prize.getDescription() + ", 보너스 볼 일치  (" + String.format("%,d",prize.getPrize()) +"원)" + " - " + count + "개");
-            }
+            printPrizeResult(prize, count);
         }
+    }
+
+    private static void printPrizeResult(LotteryPrize prize, int count) {
+        if (prize == LotteryPrize.SECOND) {
+            System.out.println(
+                    prize.getDescription() + " (" + String.format("%,d", prize.getPrize()) + "원)" + " - " + count + "개");
+            return;
+        }
+        System.out.println(
+                prize.getDescription() + ", 보너스 볼 일치 (" + String.format("%,d", prize.getPrize()) + "원)" + " - " + count + "개");
     }
 
     public void printTotalAmount(LottoResults lottoResults, int purchaseAmount) {
@@ -59,4 +63,9 @@ public class OutputView {
     public void printNewLine() {
         System.out.println();
     }
+
+    public void printErrorMessage(String message) {
+        System.out.println(message);
+    }
+
 }

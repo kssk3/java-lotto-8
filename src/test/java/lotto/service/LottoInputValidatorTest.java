@@ -34,4 +34,5 @@ class LottoInputValidatorTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(LottoGameException.PREFIX);
     }
+
 }

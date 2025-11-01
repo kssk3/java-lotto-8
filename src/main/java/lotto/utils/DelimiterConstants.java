@@ -4,5 +4,6 @@ public class DelimiterConstants {
 
     private DelimiterConstants() {}
 
-    public static final String COMA = ",";
+    public static final String COMMA = ",";
 }
+

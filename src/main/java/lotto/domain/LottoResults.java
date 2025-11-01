@@ -3,6 +3,7 @@ package lotto.domain;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import lotto.utils.Constants;
 
 public class LottoResults {
 
@@ -32,6 +33,7 @@ public class LottoResults {
     }
 
     public double calculateReturnRate(int purchasePrice) {
-        return (double) getTotalPrizeAmount() / purchasePrice * 100;
+        return (double) getTotalPrizeAmount() / purchasePrice * Constants.PERCENTAGE_MULTIPLIER;
     }
+
 }
