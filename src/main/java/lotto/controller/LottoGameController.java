@@ -2,7 +2,11 @@ package lotto.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import lotto.domain.LotteryPrize;
+import lotto.domain.Lotto;
 import lotto.domain.LottoGame;
+import lotto.domain.LottoResults;
 import lotto.domain.LottoRound;
 import lotto.domain.Lottos;
 import lotto.domain.WinningLotto;
@@ -26,6 +30,7 @@ public class LottoGameController {
         LottoGame lottoGame = initializeGame();
         showLottoGame(lottoGame);
         WinningLotto winningLotto = createWinningLotto();
+        displayResult(lottoGame, winningLotto);
     }
 
     private LottoGame initializeGame() {
@@ -63,5 +68,32 @@ public class LottoGameController {
         String input = this.inputView.readLine();
         outputView.printNewLine();
         return this.lottoGameService.createBonusNumber(winningNumbers, input);
+    }
+
+    private LottoResults findLotteryPrizeAndGetResults(LottoGame lottoGame, WinningLotto winningLotto) {
+        List<LotteryPrize> matchLottoResults = findMatchLottoResults(lottoGame, winningLotto);
+        return new LottoResults(matchLottoResults);
+    }
+
+    private static List<LotteryPrize> findMatchLottoResults(LottoGame lottoGame, WinningLotto winningLotto) {
+        List<LotteryPrize> matchLottoResults = new ArrayList<>();
+
+        Lottos lottos = lottoGame.getLottos();
+        for (Lotto lotto : lottos.getLottos()) {
+            long count = lotto.getNumbers().stream()
+                    .filter(winningLotto.getNumbers()::contains)
+                    .count();
+
+            boolean bonusMatch = lotto.getNumbers().stream()
+                    .anyMatch(number -> number == winningLotto.getBonusNumber());
+
+            matchLottoResults.add(LotteryPrize.from(count, bonusMatch));
+        }
+        return matchLottoResults;
+    }
+
+    private void displayResult(LottoGame lottoGame, WinningLotto winningLotto) {
+        LottoResults lottoResults = findLotteryPrizeAndGetResults(lottoGame, winningLotto);
+        outputView.printWinningStatistics(lottoResults);
     }
 }

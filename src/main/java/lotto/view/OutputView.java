@@ -1,8 +1,10 @@
 package lotto.view;
 
 import java.util.List;
+import lotto.domain.LotteryPrize;
 import lotto.domain.Lotto;
 import lotto.domain.LottoGame;
+import lotto.domain.LottoResults;
 import lotto.domain.LottoRound;
 import lotto.domain.Lottos;
 
@@ -18,7 +20,7 @@ public class OutputView {
     }
 
     public void printLottoGame(Lottos lottos) {
-        for(Lotto lotto : lottos.getLottos()) {
+        for (Lotto lotto : lottos.getLottos()) {
             System.out.println(lotto.getNumbers());
         }
         printNewLine();
@@ -32,12 +34,29 @@ public class OutputView {
         System.out.println("당첨 번호를 입력해 주세요.");
     }
 
+    public void printWinningStatistics(LottoResults lottoResults) {
+        System.out.println("당첨 통계");
+        System.out.println("---");
+        printNewLine();
+
+        List<LotteryPrize> prizesInOrder = lottoResults.getPrizesInOrder();
+        for (LotteryPrize prize : prizesInOrder) {
+            int count = lottoResults.getCountByPrize(prize);
+            if(prize != LotteryPrize.SECOND){
+                System.out.println(prize.getDescription() + " (" + String.format("%,d",prize.getPrize()) +"원)" + " - " + count + "개");
+            }
+
+            if(prize == LotteryPrize.SECOND){
+                System.out.println(prize.getDescription() + ", 보너스 볼 일치  (" + String.format("%,d",prize.getPrize()) +"원)" + " - " + count + "개");
+            }
+        }
+    }
+
     private void printLotto(Lotto lotto) {
         System.out.println(lotto.getNumbers());
     }
 
-    public void printNewLine() {System.out.println();}
-
-
-
+    public void printNewLine() {
+        System.out.println();
+    }
 }

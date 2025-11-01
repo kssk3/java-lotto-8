@@ -23,7 +23,7 @@ public enum LotteryPrize {
         this.description = description;
     }
 
-    public static LotteryPrize from(int matchCount, boolean bonusMatch) {
+    public static LotteryPrize from(long matchCount, boolean bonusMatch) {
         // 5개 맞춤 + 보너스까지 일치하면 2등
         if (matchCount == 5 && bonusMatch) {
             return SECOND;
