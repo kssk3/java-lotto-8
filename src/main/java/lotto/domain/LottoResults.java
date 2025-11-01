@@ -3,7 +3,6 @@ package lotto.domain;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class LottoResults {
 
@@ -24,5 +23,15 @@ public class LottoResults {
         return (int) lotteryPrizes.stream()
                 .filter(prize -> prize.equals(otherPrize))
                 .count();
+    }
+
+    public int getTotalPrizeAmount() {
+        return lotteryPrizes.stream()
+                .mapToInt(LotteryPrize::getPrize)
+                .sum();
+    }
+
+    public double calculateReturnRate(int purchasePrice) {
+        return (double) getTotalPrizeAmount() / purchasePrice * 100;
     }
 }

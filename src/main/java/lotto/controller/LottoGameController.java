@@ -94,6 +94,8 @@ public class LottoGameController {
 
     private void displayResult(LottoGame lottoGame, WinningLotto winningLotto) {
         LottoResults lottoResults = findLotteryPrizeAndGetResults(lottoGame, winningLotto);
+        int purchaseAmount = lottoGame.getLottoRound().getRound() * 1000;
         outputView.printWinningStatistics(lottoResults);
+        outputView.printTotalAmount(lottoResults, purchaseAmount);
     }
 }

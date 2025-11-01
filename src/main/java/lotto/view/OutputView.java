@@ -37,7 +37,6 @@ public class OutputView {
     public void printWinningStatistics(LottoResults lottoResults) {
         System.out.println("당첨 통계");
         System.out.println("---");
-        printNewLine();
 
         List<LotteryPrize> prizesInOrder = lottoResults.getPrizesInOrder();
         for (LotteryPrize prize : prizesInOrder) {
@@ -52,8 +51,9 @@ public class OutputView {
         }
     }
 
-    private void printLotto(Lotto lotto) {
-        System.out.println(lotto.getNumbers());
+    public void printTotalAmount(LottoResults lottoResults, int purchaseAmount) {
+        double result = lottoResults.calculateReturnRate(purchaseAmount);
+        System.out.println("총 수익률은 " + String.format("%,.1f", result) + "%입니다.");
     }
 
     public void printNewLine() {

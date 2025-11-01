@@ -47,4 +47,8 @@ public class LottoGame implements LottoMachine{
     public Lottos getLottos() {
         return lottos;
     }
+
+    public LottoRound getLottoRound() {
+        return lottoRound;
+    }
 }
