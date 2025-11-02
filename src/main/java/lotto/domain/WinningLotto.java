@@ -9,13 +9,13 @@ import lotto.utils.Constants;
 public class WinningLotto {
 
     private final List<Integer> numbers;
-    private final Integer bonus;
+    private final Integer bonusNumber;
 
     public WinningLotto(List<Integer> numbers, Integer bonus) {
         validate(numbers);
         ensureBonusNumberUnique(numbers, bonus);
         this.numbers = new LinkedList<>(numbers);
-        this.bonus = bonus;
+        this.bonusNumber = bonus;
     }
 
     public List<Integer> getNumbers() {
@@ -23,7 +23,7 @@ public class WinningLotto {
     }
 
     public Integer getBonusNumber() {
-        return bonus;
+        return bonusNumber;
     }
 
     private void validate(List<Integer> numbers){
@@ -49,19 +49,19 @@ public class WinningLotto {
             return false;
         }
         WinningLotto that = (WinningLotto) o;
-        return Objects.equals(numbers, that.numbers) && Objects.equals(bonus, that.bonus);
+        return Objects.equals(numbers, that.numbers) && Objects.equals(bonusNumber, that.bonusNumber);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(numbers, bonus);
+        return Objects.hash(numbers, bonusNumber);
     }
 
     @Override
     public String toString() {
         return "winningLotto{" +
                 "numbers=" + numbers +
-                ", bonus=" + bonus +
+                ", bonus=" + bonusNumber +
                 '}';
     }
 }

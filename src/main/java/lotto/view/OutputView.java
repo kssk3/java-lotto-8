@@ -18,7 +18,7 @@ public class OutputView {
     }
 
     public void printPurchasedLottos(Lottos lottos) {
-        for (Lotto lotto : lottos.getLottos()) {
+        for (Lotto lotto : lottos.getAll()) {
             System.out.println(lotto.getNumbers());
         }
         printNewLine();

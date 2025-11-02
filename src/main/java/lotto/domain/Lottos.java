@@ -6,22 +6,22 @@ import lotto.error.LottoGameException;
 
 public class Lottos {
 
-    private final List<Lotto> lottos;
+    private final List<Lotto> tickets;
 
     public Lottos() {
-        this.lottos = new LinkedList<>();
+        this.tickets = new LinkedList<>();
     }
 
-    public void addLotto(Lotto lotto) {
-        this.lottos.add(lotto);
+    public void add(Lotto lotto) {
+        this.tickets.add(lotto);
     }
 
-    public List<Lotto> getLottos() {
-        return lottos;
+    public List<Lotto> getAll() {
+        return tickets;
     }
 
     private void validateLottos() {
-        if(this.lottos == null || this.lottos.isEmpty()) {
+        if(this.tickets == null || this.tickets.isEmpty()) {
             throw new IllegalArgumentException(LottoGameException.PREFIX + "소지하고 있는 로또가 없습니다.");
         }
     }

@@ -13,7 +13,7 @@ public class LottoGame implements LottoMachine{
     public LottoGame(Lottos lottos, LottoRound lottoRound) {
         this.lottos = lottos;
         this.lottoRound = lottoRound;
-        this.currentRound = Constants.INITIAL_ROUND_COUNT;
+        this.currentRound = Constants.INITIAL_COUNT;
     }
 
     @Override
@@ -21,27 +21,27 @@ public class LottoGame implements LottoMachine{
         return Randoms.pickUniqueNumbersInRange(Constants.LOTTO_MIN_NUMBER, Constants.LOTTO_MAX_NUMBER, Constants.LOTTO_NUMBER_COUNT);
     }
 
-    public void generateAllLottos() {
+    public void generateLottos() {
         do {
-            generateSingleLotto();
+            generateLotto();
         } while (!isFinished());
     }
 
-    private void generateSingleLotto() {
+    private void generateLotto() {
         try {
-            lottos.addLotto(new Lotto(generateLottoNumbers()));
-            incrementCurrentRound();
+            lottos.add(new Lotto(generateLottoNumbers()));
+            incrementRound();
         } catch (IllegalArgumentException e) {
             e.getMessage();
         }
     }
 
-    private void incrementCurrentRound() {
+    private void incrementRound() {
         currentRound++;
     }
 
     private boolean isFinished() {
-        return currentRound == lottoRound.getRound();
+        return currentRound == lottoRound.getTicketCount();
     }
 
     public Lottos getLottos() {

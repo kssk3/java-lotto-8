@@ -10,7 +10,7 @@ public class Constants {
 
     public static final int PERCENTAGE_MULTIPLIER = 100;
 
-    public static final int INITIAL_ROUND_COUNT = 0;
+    public static final int INITIAL_COUNT = 0;
 
     public static final int BONUS_ELIGIBILITY_COUNT = 5;
 

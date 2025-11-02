@@ -47,13 +47,13 @@ public class LottoGameController {
     private LottoGame initializeGame() {
         return retryOnException(() -> {
             LottoRound lottoRound = getLottoRound();
-            outputView.printLottoPurchaseCount(lottoRound.getRound());
+            outputView.printLottoPurchaseCount(lottoRound.getTicketCount());
             return new LottoGame(new Lottos(), lottoRound);
         });
     }
 
     private void generateAndDisplayLottos(LottoGame lottoGame) {
-        lottoGame.generateAllLottos();
+        lottoGame.generateLottos();
         outputView.printPurchasedLottos(lottoGame.getLottos());
     }
 
@@ -98,7 +98,7 @@ public class LottoGameController {
         List<LotteryPrize> matchLottoResults = new ArrayList<>();
 
         Lottos lottos = lottoGame.getLottos();
-        for (Lotto lotto : lottos.getLottos()) {
+        for (Lotto lotto : lottos.getAll()) {
             int count = (int) lotto.getNumbers().stream()
                     .filter(winningLotto.getNumbers()::contains)
                     .count();
@@ -113,7 +113,7 @@ public class LottoGameController {
 
     private void displayResult(LottoGame lottoGame, WinningLotto winningLotto) {
         LottoResults lottoResults = createLottoResults(lottoGame, winningLotto);
-        int purchaseAmount = lottoGame.getLottoRound().getRound() * Constants.LOTTO_TICKET_PRICE;
+        int purchaseAmount = lottoGame.getLottoRound().getTicketCount() * Constants.LOTTO_TICKET_PRICE;
         outputView.printWinningStatistics(lottoResults);
         outputView.printProfitRate(lottoResults, purchaseAmount);
     }
