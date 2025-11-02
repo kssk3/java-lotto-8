@@ -26,6 +26,13 @@ class WinningLottoTest {
                 .hasMessageContaining(LottoGameException.PREFIX);
     }
 
+    @DisplayName("당첨 번호가 6개면 테스트가 통과한다.")
+    @Test
+    void 당첨_번호가_6개면_테스트가_통과한다() {
+        assertThatCode(() -> new WinningLotto(List.of(1, 2, 3, 4, 5, 6), 7))
+                .doesNotThrowAnyException();
+    }
+
     @DisplayName("당첨 번호가 6개 이상이면 예외를 발생한다.")
     @Test
     void 당첨_번호가_6개_이상이면_예외를_발생한다() {

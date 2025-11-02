@@ -13,7 +13,7 @@ class LottoInputValidatorTest {
     @Test
     void 중복된_번호가_있으면_예외를_발생한다() {
         final LottoInputValidator validator = new LottoInputValidator();
-        assertThatThrownBy(() -> validator.validateDuplicateNumber("1,2,3,3,4,5"))
+        assertThatThrownBy(() -> validator.validateUniqueWinningNumbers("1,2,3,3,4,5"))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(LottoGameException.PREFIX);
 
@@ -23,14 +23,14 @@ class LottoInputValidatorTest {
     @Test
     void 중복된_번호가_없으면_테스트를_통과한다() {
         final LottoInputValidator validator = new LottoInputValidator();
-        assertSimpleTest(() -> validator.validateDuplicateNumber("1,2,3,4,5,6"));
+        assertSimpleTest(() -> validator.validateUniqueWinningNumbers("1,2,3,4,5,6"));
     }
 
     @DisplayName("번호가 1부터 45사이의 값이 아닐경우 예외를 발생한다.")
     @Test
     void 번호가_1부터_45사이의_값이_아닐경우_예외를_발생한다() {
         final LottoInputValidator validator = new LottoInputValidator();
-        assertThatThrownBy(() -> validator.validateDuplicateNumber("11,22,33,44,55,66"))
+        assertThatThrownBy(() -> validator.validateUniqueWinningNumbers("11,22,33,44,55,66"))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(LottoGameException.PREFIX);
     }

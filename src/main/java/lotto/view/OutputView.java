@@ -3,9 +3,7 @@ package lotto.view;
 import java.util.List;
 import lotto.domain.LotteryPrize;
 import lotto.domain.Lotto;
-import lotto.domain.LottoGame;
 import lotto.domain.LottoResults;
-import lotto.domain.LottoRound;
 import lotto.domain.Lottos;
 
 public class OutputView {
@@ -19,7 +17,7 @@ public class OutputView {
         System.out.println(value + "개를 구매했습니다.");
     }
 
-    public void printLottoGame(Lottos lottos) {
+    public void printPurchasedLottos(Lottos lottos) {
         for (Lotto lotto : lottos.getLottos()) {
             System.out.println(lotto.getNumbers());
         }
@@ -30,7 +28,7 @@ public class OutputView {
         System.out.println("보너스 번호를 입력해 주세요.");
     }
 
-    public void printWinNumbers() {
+    public void printRequestWinningNumbers() {
         System.out.println("당첨 번호를 입력해 주세요.");
     }
 
@@ -48,14 +46,14 @@ public class OutputView {
     private static void printPrizeResult(LotteryPrize prize, int count) {
         if (prize == LotteryPrize.SECOND) {
             System.out.println(
-                    prize.getDescription() + " (" + String.format("%,d", prize.getPrize()) + "원)" + " - " + count + "개");
+                    prize.getDescription() + ", 보너스 볼 일치 (" + String.format("%,d", prize.getPrize()) + "원)" + " - " + count + "개");
             return;
         }
         System.out.println(
-                prize.getDescription() + ", 보너스 볼 일치 (" + String.format("%,d", prize.getPrize()) + "원)" + " - " + count + "개");
+                prize.getDescription() + " (" + String.format("%,d", prize.getPrize()) + "원)" + " - " + count + "개");
     }
 
-    public void printTotalAmount(LottoResults lottoResults, int purchaseAmount) {
+    public void printProfitRate(LottoResults lottoResults, int purchaseAmount) {
         double result = lottoResults.calculateReturnRate(purchaseAmount);
         System.out.println("총 수익률은 " + String.format("%,.1f", result) + "%입니다.");
     }

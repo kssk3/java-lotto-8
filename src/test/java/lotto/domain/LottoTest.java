@@ -37,7 +37,7 @@ class LottoTest {
     void 구입_금액이_1000원_단위로_나누어_떨어지지_않으면_예외가_발생한다() {
         assertSimpleTest(() -> {
             assertThatRuntimeException()
-                    .isThrownBy(() -> lottoInputValidator.purchaseAmount("8001"));
+                    .isThrownBy(() -> lottoInputValidator.validatePurchaseAmount("8001"));
         });
     }
 
@@ -46,7 +46,7 @@ class LottoTest {
     void 구입_금액이_숫자가_아니면_예외가_발생한다() {
         assertSimpleTest(() -> {
             assertThatRuntimeException()
-                    .isThrownBy(() -> lottoInputValidator.purchaseAmount("구입금액"));
+                    .isThrownBy(() -> lottoInputValidator.validatePurchaseAmount("구입금액"));
         });
     }
 }

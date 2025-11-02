@@ -21,22 +21,22 @@ public class LottoGame implements LottoMachine{
         return Randoms.pickUniqueNumbersInRange(Constants.LOTTO_MIN_NUMBER, Constants.LOTTO_MAX_NUMBER, Constants.LOTTO_NUMBER_COUNT);
     }
 
-    public void playLotto() {
+    public void generateAllLottos() {
         do {
-            playLottoGame();
+            generateSingleLotto();
         } while (!isFinished());
     }
 
-    private void playLottoGame() {
+    private void generateSingleLotto() {
         try {
             lottos.addLotto(new Lotto(generateLottoNumbers()));
-            addCurrentLottoRound();
+            incrementCurrentRound();
         } catch (IllegalArgumentException e) {
             e.getMessage();
         }
     }
 
-    private void addCurrentLottoRound() {
+    private void incrementCurrentRound() {
         currentRound++;
     }
 

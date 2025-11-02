@@ -13,7 +13,7 @@ public class WinningLotto {
 
     public WinningLotto(List<Integer> numbers, Integer bonus) {
         validate(numbers);
-        validateContainsBonusNumber(numbers, bonus);
+        ensureBonusNumberUnique(numbers, bonus);
         this.numbers = new LinkedList<>(numbers);
         this.bonus = bonus;
     }
@@ -36,7 +36,7 @@ public class WinningLotto {
         }
     }
 
-    private void validateContainsBonusNumber(List<Integer> numbers, Integer bonusNumber) {
+    private void ensureBonusNumberUnique(List<Integer> numbers, Integer bonusNumber) {
         if (numbers.contains(bonusNumber)) {
             throw new IllegalArgumentException(
                     LottoGameException.PREFIX + " 당첨 번호와 보너스 번호가 중복될 수 없습니다. " + bonusNumber + " 다른 번호를 입력해주세요.");

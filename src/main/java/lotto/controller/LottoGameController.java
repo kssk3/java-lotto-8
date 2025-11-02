@@ -29,7 +29,7 @@ public class LottoGameController {
 
     public void run() {
         LottoGame lottoGame = initializeGame();
-        showLottoGame(lottoGame);
+        generateAndDisplayLottos(lottoGame);
         WinningLotto winningLotto = createWinningLotto();
         displayResult(lottoGame, winningLotto);
     }
@@ -45,21 +45,23 @@ public class LottoGameController {
     }
 
     private LottoGame initializeGame() {
-        LottoRound lottoRound = getLottoRound();
-        outputView.printLottoPurchaseCount(lottoRound.getRound());
-        return new LottoGame(new Lottos(), lottoRound);
+        return retryOnException(() -> {
+            LottoRound lottoRound = getLottoRound();
+            outputView.printLottoPurchaseCount(lottoRound.getRound());
+            return new LottoGame(new Lottos(), lottoRound);
+        });
     }
 
-    private void showLottoGame(LottoGame lottoGame) {
-        lottoGame.playLotto();
-        outputView.printLottoGame(lottoGame.getLottos());
+    private void generateAndDisplayLottos(LottoGame lottoGame) {
+        lottoGame.generateAllLottos();
+        outputView.printPurchasedLottos(lottoGame.getLottos());
     }
 
     private LottoRound getLottoRound() {
         return retryOnException(() -> {
             this.outputView.printRequestPurchaseAmount();
             String input = inputView.readLine();
-            return this.lottoGameService.createLottoRound(input);
+            return this.lottoGameService.createRoundFromAmout(input);
         });
     }
 
@@ -71,10 +73,10 @@ public class LottoGameController {
 
     private List<Integer> getWinningNumbers() {
         return retryOnException(() -> {
-            this.outputView.printWinNumbers();
+            this.outputView.printRequestWinningNumbers();
             String input = this.inputView.readLine();
             outputView.printNewLine();
-            return this.lottoGameService.createWinningNumbers(input);
+            return this.lottoGameService.parseWinningNumbers(input);
         });
     }
 
@@ -83,16 +85,16 @@ public class LottoGameController {
             this.outputView.printBonusNumber();
             String input = this.inputView.readLine();
             outputView.printNewLine();
-            return this.lottoGameService.createBonusNumber(winningNumbers, input);
+            return this.lottoGameService.parserBonusNumber(winningNumbers, input);
         });
     }
 
-    private LottoResults findLotteryPrizeAndGetResults(LottoGame lottoGame, WinningLotto winningLotto) {
-        List<LotteryPrize> matchLottoResults = findMatchResults(lottoGame, winningLotto);
+    private LottoResults createLottoResults(LottoGame lottoGame, WinningLotto winningLotto) {
+        List<LotteryPrize> matchLottoResults = matchLottosWithWinning(lottoGame, winningLotto);
         return new LottoResults(matchLottoResults);
     }
 
-    private static List<LotteryPrize> findMatchResults(LottoGame lottoGame, WinningLotto winningLotto) {
+    private static List<LotteryPrize> matchLottosWithWinning(LottoGame lottoGame, WinningLotto winningLotto) {
         List<LotteryPrize> matchLottoResults = new ArrayList<>();
 
         Lottos lottos = lottoGame.getLottos();
@@ -110,9 +112,9 @@ public class LottoGameController {
     }
 
     private void displayResult(LottoGame lottoGame, WinningLotto winningLotto) {
-        LottoResults lottoResults = findLotteryPrizeAndGetResults(lottoGame, winningLotto);
+        LottoResults lottoResults = createLottoResults(lottoGame, winningLotto);
         int purchaseAmount = lottoGame.getLottoRound().getRound() * Constants.LOTTO_TICKET_PRICE;
         outputView.printWinningStatistics(lottoResults);
-        outputView.printTotalAmount(lottoResults, purchaseAmount);
+        outputView.printProfitRate(lottoResults, purchaseAmount);
     }
 }

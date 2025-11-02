@@ -14,22 +14,22 @@ public class LottoGameService {
         this.validator = validator;
     }
 
-    public LottoRound createLottoRound(final String input) {
-            validator.purchaseAmount(input);
+    public LottoRound createRoundFromAmout(final String input) {
+            validator.validatePurchaseAmount(input);
             int round = Integer.parseInt(input) / Constants.LOTTO_TICKET_PRICE;
             return new LottoRound(round);
     }
 
-    public List<Integer> createWinningNumbers(final String input) {
-        validator.validateDuplicateNumber(input);
+    public List<Integer> parseWinningNumbers(final String input) {
+        validator.validateUniqueWinningNumbers(input);
         return Arrays.stream(input.split(DelimiterConstants.COMMA))
                 .map(String::trim)
                 .map(Integer::parseInt)
                 .toList();
     }
 
-    public int createBonusNumber(final List<Integer> numbers, final String input) {
-        validator.duplicateBonusNumber(numbers, input);
+    public int parserBonusNumber(final List<Integer> numbers, final String input) {
+        validator.ensureBonusNumberNotInWinning(numbers, input);
         return Integer.parseInt(input);
     }
 

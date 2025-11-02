@@ -12,8 +12,8 @@ public class LottoInputValidator {
 
     private static final int REST_COST = 0;
 
-    public void purchaseAmount(String input) throws IllegalArgumentException{
-        Integer value = validateAndParseInt(input);
+    public void validatePurchaseAmount(String input) throws IllegalArgumentException{
+        Integer value = parseIntegerInput(input);
         if (value < Constants.LOTTO_TICKET_PRICE) {
             throw new IllegalArgumentException(LottoGameException.PREFIX + "1,000원 이하의 금액은 구입할 수 없습니다. " + value);
         }
@@ -23,24 +23,24 @@ public class LottoInputValidator {
         }
     }
 
-    public void validateDuplicateNumber(String input) {
-        List<Integer> winningNumbers = spitedAndCreateNumbers(input);
-        validateAverageLottoNumber(winningNumbers);
+    public void validateUniqueWinningNumbers(String input) {
+        List<Integer> winningNumbers = splitAndParseNumbers(input);
+        validateNumbersInRange(winningNumbers);
         Set<Integer> numbers = new TreeSet<>(winningNumbers);
         if (numbers.size() != Constants.LOTTO_NUMBER_COUNT) {
             throw new IllegalArgumentException(LottoGameException.PREFIX + "중복된 수를 입력할 수 없습니다.");
         }
     }
 
-    public void duplicateBonusNumber(List<Integer> numbers, String input) {
-        int value = validateAndParseInt(input);
+    public void ensureBonusNumberNotInWinning(List<Integer> numbers, String input) {
+        int value = parseIntegerInput(input);
         if (numbers.contains(value)) {
             throw new IllegalArgumentException(
                     LottoGameException.PREFIX + "이미 중복된 번호가 있습니다. " + value + " 다른 번호를 입력해주세요.");
         }
     }
 
-    public static void validateAverageLottoNumber(List<Integer> winningNumbers) {
+    public static void validateNumbersInRange(List<Integer> winningNumbers) {
         for (Integer number : winningNumbers) {
             if (number < Constants.LOTTO_MIN_NUMBER || number > Constants.LOTTO_MAX_NUMBER) {
                 throw new IllegalArgumentException(LottoGameException.PREFIX + "로또 번호는 1부터 45 사이의 숫자여야 합니다.");
@@ -48,14 +48,14 @@ public class LottoInputValidator {
         }
     }
 
-    public static List<Integer> spitedAndCreateNumbers(String input) {
+    public static List<Integer> splitAndParseNumbers(String input) {
         return Arrays.stream(input.split(DelimiterConstants.COMMA))
                 .map(String::trim)
                 .map(Integer::parseInt)
                 .toList();
     }
 
-    public int validateAndParseInt(String input) {
+    public int parseIntegerInput(String input) {
         try {
             return Integer.parseInt(input);
         } catch (NumberFormatException e) {
