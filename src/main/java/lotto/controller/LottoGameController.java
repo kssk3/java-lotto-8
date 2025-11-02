@@ -90,11 +90,11 @@ public class LottoGameController {
     }
 
     private LottoResults createLottoResults(LottoGame lottoGame, WinningLotto winningLotto) {
-        List<LotteryPrize> matchLottoResults = matchLottosWithWinning(lottoGame, winningLotto);
+        List<LotteryPrize> matchLottoResults = matchTicketsWithWinning(lottoGame, winningLotto);
         return new LottoResults(matchLottoResults);
     }
 
-    private static List<LotteryPrize> matchLottosWithWinning(LottoGame lottoGame, WinningLotto winningLotto) {
+    private static List<LotteryPrize> matchTicketsWithWinning(LottoGame lottoGame, WinningLotto winningLotto) {
         List<LotteryPrize> matchLottoResults = new ArrayList<>();
 
         Lottos lottos = lottoGame.getLottos();

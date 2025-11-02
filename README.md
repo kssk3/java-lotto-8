@@ -139,6 +139,53 @@ public class Lotto {
 }
 ```  
 
+## 주요 기능 구현 
+```java
+private <T> T retryOnException(Supplier<T> supplier) {
+        while (true) {
+            try {
+                return supplier.get();
+            } catch (IllegalArgumentException e) {
+                outputView.printErrorMessage(e.getMessage());
+            }
+        }
+    }
+```
+  
+### 사용자가 잘못된 입력값 할 경우 예외와 에러 메세지 출력후 그 부분부터 입력받기 실행 코드
+위에 코드의 핵심 동작은 함수형 인터페이스를 활용하여  
+실행 코드를 동작후 예외가 발생하면 에러 메세지를 출력후 다시 while문이 동작된다.  
+여기서 `<T>` 제네릭을 활용하여 Object처럼 다양한 객체 값을 실행후 반환한다.  
+재사용성 관점에서도 `initializeGame`, `getLottoRound`, `getWinningNumbers`, `getBonusNumber` 4곳에서 사용되며  
+관심사 분리와 코드 중복 제거 관점에서도 많은 기여를 한다.  
+함수형 `Supplier`를 사용한 이유도 `get()` 호출 될 때마다 사용자는 입력을 받고 예외 상황이 발생하면 에러 메세지를 출력후 다시 입력값을 받는다.  
+생성자에 while문 활용하여 진행을 할 경우 중간에 예외가 터지면 처음부터 다시 입력값을 받는 상황이 나온다.  
+그래서 입력값을 받을 때마다 메서드가 실행되도록 설정을 했으며 예외가 발생하면 그메서드에서 다시 값을 받을 수 있도록 하였다.  
+   
+### 2등과 3등을 구분하기 
+```java
+public static LotteryPrize from(int matchCount, boolean bonusMatch) {
+        // 5개 맞춤 + 보너스까지 일치하면 2등
+        if (matchCount == Constants.BONUS_ELIGIBILITY_COUNT && bonusMatch) {
+            return SECOND;
+        }
+        // 5개 맞춤 + 보너스 일치하지 않을 경우 3등
+        if (matchCount == Constants.BONUS_ELIGIBILITY_COUNT && !bonusMatch) {
+            return THIRD;
+        }
+
+        return Arrays.stream(values())
+                .filter(value -> value.matchCount == matchCount)
+                .findFirst()
+                .orElse(NONE);
+    }
+
+```  
+  
+2등과 3등의 상금이 다르므로 구분하기 위해서는 2등은 보너스 번호가 일치해야하고, 3등은 보너스 번호가 일치하면 안된다.  
+static 메서드를 활용하여 파라미터 값으로 받아 확인후 조건에 맞는 값으로 return 한다.    
+
+
 ### 기능 구현  
 - [x] 로또 구입 금액 입력 받는다.  
   - [x] 구입 금액이 1,000원으로 나누어 떨어지지 않는 경우 예외 처리 발생
